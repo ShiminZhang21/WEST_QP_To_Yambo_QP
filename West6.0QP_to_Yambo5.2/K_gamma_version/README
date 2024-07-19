@@ -1,0 +1,21 @@
+#The current version is for k gamma point. For more k point one need to know the corresponding relation of the k point index between west and yambo
+#__________________________________Generate a new database from west_____________
+#
+First make sure the Yambo SAVE file is in current folder
+
+0.  enter 0_Generate_ypp
+	generate a ypp.in from west database
+
+1. 1_Generate_inputs
+	generate ypp_doublecheck.in input, the input for generating new ndb.QP. require SAVE database
+	Check the input format to see if it is same as the generated one 
+2. 2_Generate_database
+	generate new database. 
+	after run you should see a new databse generated: NewQP/ndb.QP
+	The database information is in l-check-newQP, see if it is the correct one 
+
+(An alternative way to read check the ndb.QP is to use ReadQP_new.py)
+
+
+
+When numbers of QP to write is too large, the current method would fail. ypp use command line to write in the data, when the list of QP band is too long it won't write in . In this case go to "MoreBandsCase" folder for the new solution

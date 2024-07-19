@@ -1,0 +1,15 @@
+When numbers of bands are too large, the direct ypp.x -F ypp.in  would have problem. It is probably because the command line length is to long. 
+
+if you directly run the ypp_60bands.in, then the eroror happen.
+
+
+In this case we write 30 bands to two database separately and then merge them.
+
+1. separate the ypp.in into ypp_60bands_p1.in, ypp_60bands_p2.in
+	each input write a part of bands
+2. Run 2_Generate_database2
+	This will generate two separate database
+3. 3_Generate_merged_datbase
+	This will merge the databse and generate a new database : NewQP_60bands/ndb.QP_merged_1
+
+Read_merged_qp.py: This script read and print the data in new database, because the ypp can not read the data from merged database for some reason, we can't use the CheckDB  function to find out is the database has been successfully generated. 

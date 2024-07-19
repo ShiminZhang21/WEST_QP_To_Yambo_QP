@@ -1,0 +1,41 @@
+
+####################################### Lux #########################################################################################################
+ echo "Start:"; date;
+ echo "Running program on $SLURM_JOB_NUM_NODES nodes with $SLURM_NTASKS total tasks, with each node getting $SLURM_NTASKS_PER_NODE running on cores."
+ module load intel/impi
+ export OMP_NUM_THREADS=1
+ MPICMD="mpirun -n $SLURM_NTASKS"
+# PWDIR=/data/groups/ping/kli103/programs/qe-6.6/bin
+# YAMDIR=/data/groups/ping/kli103/programs/yambo-4.5.2_qe-6.6/bin
+#YAMDIR=/data/users/jxu153/codes/yambo/yambo-4.1.4/bin
+YAMDIR=/data/groups/ping/szhan213/Programs/yambo5.2_hse/bin
+#####################################################################################################################################################
+
+
+function CheckDB(){
+#database path with database name
+mkdir Check
+cp $1 ./Check/ndb.QP
+$YAMDIR/ypp -q g -J Check -F $2 -Q
+rm -rf Check
+}
+
+#cp 0_Generate_ypp/ypp.in .
+#After write the QP correction to the input ypp.in
+mkdir NewQP_60bands_p1
+$YAMDIR/yambo
+$YAMDIR/ypp -F ypp_60bands_p1.in -J NewQP_60bands_p1
+#cp SAVE/ndb.QP NewQP
+#ls NewQP
+
+#check the QP database written
+CheckDB NewQP_60bands_p1/ndb.QP l-check-newQP_60bands_p1
+
+#part2:
+mkdir NewQP_60bands_p2
+$YAMDIR/yambo
+$YAMDIR/ypp -F ypp_60bands_p2.in -J NewQP_60bands_p2
+#
+##check the QP database written
+CheckDB NewQP_60bands_p2/ndb.QP l-check-newQP_60bands_p2
+
